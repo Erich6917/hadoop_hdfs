@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.Itstar</groupId>
-	<artifactId>day06</artifactId>
+	<groupId>com.black</groupId>
+	<artifactId>hadoop_hdfs</artifactId>
 	<version>1.0-SNAPSHOT</version>
 
 	<dependencies>
@@ -15,6 +15,8 @@
 			<artifactId>jdk.tools</artifactId>
 			<version>1.8</version>
 		</dependency>
+
+		<!-- hadoop 相关 -->
 		<dependency>
 			<groupId>org.apache.hadoop</groupId>
 			<artifactId>hadoop-common</artifactId>
@@ -31,6 +33,12 @@
 			<version>2.7.3</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>RELEASE</version>
+		</dependency>
 
 
 
