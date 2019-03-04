@@ -4,7 +4,8 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import org.apache.hadoop.io.Writable;
+import org.apache.hadoop.io.WritableComparable;
+
 
 /**
  * @Author : Erich ErichLee@qq.com
@@ -12,13 +13,9 @@ import org.apache.hadoop.io.Writable;
  * @Comment:
  * 
  */
-public class UserInfo implements Writable {
+public class UserInfo implements WritableComparable<UserInfo> {
 
-//	String name = getRandomName();
-//	String id = makeidCardNumber();
-//	String month = getRandomMonth();
-//	String flowUp = getRandomFlow();
-//	String flowDown = getRandomFlow();
+
 	private String name;
 	private String id;
 	private String date;
@@ -112,6 +109,14 @@ public class UserInfo implements Writable {
 	@Override
 	public String toString() {
 		return " ["+name+" "+date+" "+flowUp+" "+flowDown+" "+flowTotal+  "] ";
+	}
+	
+	@Override
+	public int compareTo(UserInfo o) {
+
+		// 比较流量大小 倒序
+		return this.flowUp > o.getFlowUp() ? -1 : 1;
+//		return 0;
 	}
 	
 

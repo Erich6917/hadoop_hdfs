@@ -15,8 +15,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 /**
  * @Author : Erich ErichLee@qq.com
  * @Date : 2019年3月4日
- * @Comment: 根据用户信息分区-月份
- * 
+ * @Comment: 根据用户信息 统计流量信息-基础版本
  */
 public class FlowCount {
 	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
