@@ -108,14 +108,14 @@ public class UserInfo implements WritableComparable<UserInfo> {
 
 	@Override
 	public String toString() {
-		return " ["+name+" "+date+" "+flowUp+" "+flowDown+" "+flowTotal+  "] ";
+		return String.format("%8s %6s %5d %5d %5d", name, date, flowUp, flowDown, flowTotal);
 	}
 	
 	@Override
 	public int compareTo(UserInfo o) {
 
 		// 比较流量大小 倒序
-		return this.flowUp > o.getFlowUp() ? -1 : 1;
+		return this.flowTotal > o.getFlowTotal() ? -1 : 1;
 //		return 0;
 	}
 	

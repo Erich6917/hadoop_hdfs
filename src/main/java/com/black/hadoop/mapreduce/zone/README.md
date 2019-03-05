@@ -15,5 +15,7 @@ com.black.hadoop.mapreduce.zone.FlowSort /mapred/zone/in /mapred/zone/count
 
 
 
-###执行机测试-依照时间排序
+###执行机测试-增加流量大小排序
+
+hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoop.mapreduce.zone.FlowSort /mapred/zone/in /mapred/zone/count
 
