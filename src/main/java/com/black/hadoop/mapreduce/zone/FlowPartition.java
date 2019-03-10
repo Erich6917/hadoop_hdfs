@@ -16,7 +16,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 /**
  * @Author : Erich ErichLee@qq.com
  * @Date : 2019年3月4日
- * @Comment: 根据用户信息 统计流量信息-增加季度分区功能
+ * @Comment: demo2-根据用户信息 统计流量信息-增加季度分区功能
  * 
  */
 public class FlowPartition {
@@ -71,10 +71,10 @@ public class FlowPartition {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			// read msg
 			String text = value.toString();
-			String[] lines = text.split("\t\n");
+			String[] lines = text.split("\n");
 
 			for (String line : lines) {
-				String[] fields = line.split(" ");
+				String[] fields = line.split("\t");
 				// parse msg
 				String name = fields[0];
 				String id = fields[1];

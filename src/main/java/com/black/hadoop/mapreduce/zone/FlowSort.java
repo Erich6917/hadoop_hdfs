@@ -10,13 +10,14 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Partitioner;
 import org.apache.hadoop.mapreduce.Reducer;
+import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 /**
  * @Author : Erich ErichLee@qq.com
  * @Date : 2019年3月4日
- * @Comment: 根据用户信息 统计流量信息-增加排序功能
+ * @Comment: demo3-根据用户信息 统计流量信息-增加排序功能
  * 
  */
 public class FlowSort {
@@ -35,23 +36,28 @@ public class FlowSort {
 		job.setReducerClass(FlowReducer.class);
 
 		// 5.设置mapper阶段输出的数据类型
+//		job.setMapOutputKeyClass(Text.class);
+//		job.setMapOutputValueClass(UserInfo.class);
+		
 		job.setMapOutputKeyClass(UserInfo.class);
 		job.setMapOutputValueClass(Text.class);
+
 
 		// 6.设置reducer阶段输出的数据类型
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(UserInfo.class);
 
-//		 加入自定义分区
-		job.setPartitionerClass(FlowShowSortPartitioner.class);
-		// 注意：结果文件几个？
-		job.setNumReduceTasks(4);
-//        //设置读取数据切片的类
-//        job.setInputFormatClass(CombineTextInputFormat.class);
-//        //最大切片大小8M
-//        CombineTextInputFormat.setMaxInputSplitSize(job,8388608);
-//        //最小切片大小6M
-//        CombineTextInputFormat.setMinInputSplitSize(job,6291456);
+////		 加入自定义分区
+//		job.setPartitionerClass(FlowShowSortPartitioner.class);
+//		// 注意：结果文件几个？
+//		job.setNumReduceTasks(4);
+		
+        //设置读取数据切片的类
+        job.setInputFormatClass(CombineTextInputFormat.class);
+        //最大切片大小8M
+        CombineTextInputFormat.setMaxInputSplitSize(job,50*1024*1024);
+        //最小切片大小6M
+        CombineTextInputFormat.setMinInputSplitSize(job,6*1024*1024);
 
 		// 7.设置数据输入的路径 默认TextInputFormat
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
@@ -70,10 +76,10 @@ public class FlowSort {
 		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
 			// read msg
 			String text = value.toString();
-			String[] lines = text.split("\t\n");
+			String[] lines = text.split("\n");
 
 			for (String line : lines) {
-				String[] fields = line.split(" ");
+				String[] fields = line.split("\t");
 				// parse msg
 				String name = fields[0];
 				String id = fields[1];
@@ -93,14 +99,16 @@ public class FlowSort {
 	public static class FlowReducer extends Reducer<UserInfo, Text, Text, UserInfo> {
 
 		@Override
-		protected void reduce(UserInfo key, Iterable<Text> values, Context context)
+		protected void reduce(UserInfo userInfo, Iterable<Text> values, Context context)
 				throws IOException, InterruptedException {
-
-			context.write(values.iterator().next(), key);
+			
+			
+			context.write(values.iterator().next(), userInfo);
 		}
 
-		protected void reduce1(Iterable<UserInfo> values, Text key, Context context)
+		protected void reduce1(Text key, Iterable<UserInfo> values, Context context)
 				throws IOException, InterruptedException {
+
 			long flowUp = 0;
 			long flowDown = 0;
 			UserInfo demo = new UserInfo();
@@ -108,37 +116,38 @@ public class FlowSort {
 			for (UserInfo info : values) {
 				flowUp += info.getFlowUp();
 				flowDown += info.getFlowDown();
-				if (demo != null) {
+				if (demo.getId() == null) {
 					demo.setName(info.getName());
 					demo.setId(info.getId());
-					demo.setDate(info.getDate());
+					demo.setDate("2018");
 				}
 			}
 
 			UserInfo useInfo = new UserInfo(demo.getName(), demo.getId(), demo.getDate(), flowUp, flowDown);
 			context.write(key, useInfo);
+
 		}
 
 	}
 
-}
+	public static class FlowShowSortPartitioner extends Partitioner<UserInfo, Text> {
 
-class FlowShowSortPartitioner extends Partitioner<UserInfo, Text> {
+		@Override
+		public int getPartition(UserInfo key, Text value, int numPartitions) {
+			// 根据时间
+			String date = key.getDate();
 
-	@Override
-	public int getPartition(UserInfo key, Text value, int numPartitions) {
-		// 根据时间
-		String date = key.getDate();
+			if ("201801".equals(date) || "201802".equals(date) || "201803".equals(date)) {
+				return 1;
+			} else if ("201804".equals(date) || "201805".equals(date) || "201806".equals(date)) {
+				return 2;
+			} else if ("201807".equals(date) || "201808".equals(date) || "201809".equals(date)) {
+				return 3;
+			}
 
-		if ("201801".equals(date) || "201802".equals(date) || "201803".equals(date)) {
-			return 1;
-		} else if ("201804".equals(date) || "201805".equals(date) || "201806".equals(date)) {
-			return 2;
-		} else if ("201807".equals(date) || "201808".equals(date) || "201809".equals(date)) {
-			return 3;
+			return 0;
+
 		}
-
-		return 0;
 
 	}
 

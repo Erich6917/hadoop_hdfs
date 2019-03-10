@@ -106,6 +106,35 @@ public class UserInfo implements WritableComparable<UserInfo> {
 		
 	}
 
+
+	
+//	@Override
+//	public boolean equals(Object obj) {
+//		if (this == obj)
+//			return true;
+//		if (obj == null)
+//			return false;
+//		if (getClass() != obj.getClass())
+//			return false;
+//		UserInfo other = (UserInfo) obj;
+//		if (id == null) {
+//			if (other.id != null)
+//				return false;
+//		} else if (!id.equals(other.id))
+//			return false;
+//		return true;
+//	}
+//
+//	@Override
+//	public int hashCode() {
+//		final int prime = 31;
+//		int result = 1;
+//		result = prime * result + ((id == null) ? 0 : id.hashCode());
+//		return result;
+//	}
+
+	
+
 	@Override
 	public String toString() {
 		return String.format("%8s %6s %5d %5d %5d", name, date, flowUp, flowDown, flowTotal);
