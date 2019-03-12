@@ -7,6 +7,8 @@ import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 
+import com.black.hadoop.mapreduce.zone.bean.UserInfo;
+
 /**
  * @Author : Erich ErichLee@qq.com
  * @Date : 2019年3月8日

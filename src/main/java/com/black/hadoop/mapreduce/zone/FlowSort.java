@@ -14,6 +14,8 @@ import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
+import com.black.hadoop.mapreduce.zone.bean.UserInfo;
+
 /**
  * @Author : Erich ErichLee@qq.com
  * @Date : 2019年3月4日

@@ -1,4 +1,4 @@
-package com.black.hadoop.mapreduce.zone;
+package com.black.hadoop.mapreduce.zone.bean;
 
 import java.io.DataInput;
 import java.io.DataOutput;
