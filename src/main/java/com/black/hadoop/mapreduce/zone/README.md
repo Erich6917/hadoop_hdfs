@@ -21,13 +21,12 @@ hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoo
 
 
 
-### 执行机测试-增加流量大小排序 FlowSort
-
+### MR测试-增加流量大小排序 FlowSort
 ```
 hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoop.mapreduce.zone.FlowSort /mapred/zone/in /mapred/zone/out3
 ```
 
-- 说明：原始输入文本为三个小文件，默认情况下，会开启三个task任务
+- combine说明：原始输入文本为三个小文件，默认情况下，会开启三个task任务
 
   ​	为防止数据倾斜，可以使用Combine，设置最大最小切片，先将小文件合并一个大文件
 
