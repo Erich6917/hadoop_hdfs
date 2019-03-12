@@ -1,20 +1,27 @@
-###目录创建
+### 目录创建
 
 hadoop fs -mkdir -p /mapred/zone/in
 
 
 
-###执行机测试-基础版本FlowCount
-
-hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-1.0-count.jar 
-
-com.black.hadoop.mapreduce.zone.FlowSort /mapred/zone/in /mapred/zone/count
-
-###执行机测试-季度分区FlowPartition
+### MR测试-基础版本FlowCount
 
 
+```
+hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoop.mapreduce.zone.FlowCount /mapred/zone/in /mapred/zone/out1
+```
 
-###执行机测试-增加流量大小排序 FlowSort
+### MR测试-季度分区FlowPartition
+
+
+
+```
+hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoop.mapreduce.zone.FlowPartition /mapred/zone/in /mapred/zone/out2
+```
+
+
+
+执行机测试-增加流量大小排序 FlowSort
 
 hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoop.mapreduce.zone.FlowSort /mapred/zone/in /mapred/zone/out1
 
@@ -26,5 +33,5 @@ hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoo
 
 
 
-###
+
 

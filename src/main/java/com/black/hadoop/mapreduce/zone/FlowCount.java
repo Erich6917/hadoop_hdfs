@@ -4,16 +4,14 @@ import java.io.IOException;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.Mapper;
-import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import com.black.hadoop.mapreduce.zone.bean.UserInfo;
-
+import com.black.hadoop.mapreduce.zone.common.CommonFlowMapper;
+import com.black.hadoop.mapreduce.zone.common.CommonFlowReducer;
 /**
  * @Author : Erich ErichLee@qq.com
  * @Date : 2019年3月4日
@@ -29,10 +27,10 @@ public class FlowCount {
 		job.setJarByClass(FlowCount.class);
 
 		// 3.关联使用的Mapper类
-		job.setMapperClass(FlowMapper.class);
+		job.setMapperClass(CommonFlowMapper.class);
 
 		// 4.关联使用的Reducer类
-		job.setReducerClass(FlowReducer.class);
+		job.setReducerClass(CommonFlowReducer.class);
 
 		// 5.设置mapper阶段输出的数据类型
 		job.setMapOutputKeyClass(Text.class);
@@ -60,55 +58,4 @@ public class FlowCount {
 		System.exit(rs ? 0 : 1);
 	}
 
-	public static class FlowMapper extends Mapper<LongWritable, Text, Text, UserInfo> {
-
-		@Override
-		protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-			// read msg
-			String text = value.toString();
-			String[] lines = text.split("\n");
-
-			for (String line : lines) {
-				String[] fields = line.split("\t");
-				// parse msg
-				String name = fields[0];
-				String id = fields[1];
-				String date = fields[2];
-				long flowUp = Long.parseLong(fields[3]);
-				long flowdown = Long.parseLong(fields[4]);
-
-				UserInfo userInfo = new UserInfo(name, id, date, flowUp, flowdown);
-
-				// write msg
-				context.write(new Text(id), userInfo);
-			}
-		}
-
-	}
-
-	public static class FlowReducer extends Reducer<Text, UserInfo, Text, UserInfo> {
-
-		@Override
-		protected void reduce(Text key, Iterable<UserInfo> values, Context context)
-				throws IOException, InterruptedException {
-			long flowUp = 0;
-			long flowDown = 0;
-			UserInfo demo = new UserInfo();
-
-			for (UserInfo info : values) {
-				flowUp += info.getFlowUp();
-				flowDown += info.getFlowDown();
-				if (demo != null) {
-					demo.setName(info.getName());
-					demo.setId(info.getId());
-					demo.setDate(info.getDate());
-				}
-			}
-//			UserInfo demo = values.iterator().next();
-
-			UserInfo useInfo = new UserInfo(demo.getName(), demo.getId(), demo.getDate(), flowUp, flowDown);
-			context.write(key, useInfo);
-		}
-
-	}
 }

@@ -134,6 +134,7 @@ public class UserInfo implements WritableComparable<UserInfo> {
 //	}
 
 	
+	
 
 	@Override
 	public String toString() {
