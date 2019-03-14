@@ -36,5 +36,14 @@ hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoo
 
 
 
+### MR测试-combine测试 FlowCombinerSort
+
+```
+hadoop jar /opt/moudle/hadoop-2.7.3/diy/hadoop_hdfs-2.0-zone.jar com.black.hadoop.mapreduce.zone.FlowCombinerSort /mapred/zone/in /mapred/zone/out4
+```
+
+- combine为map和reducer 之前运行。
+- 
+
 
 
