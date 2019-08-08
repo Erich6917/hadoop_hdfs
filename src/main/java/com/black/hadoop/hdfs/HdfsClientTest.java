@@ -14,7 +14,7 @@ import org.apache.hadoop.fs.RemoteIterator;
 import org.junit.Before;
 import org.junit.Test;
 
-public class HdfsClient {
+public class HdfsClientTest {
 
 	FileSystem fs = null;
 
